@@ -1,0 +1,6 @@
+pandas>=2.2
+duckdb>=1.4
+pyproj>=3.6
+matplotlib>=3.9
+openpyxl>=3.1
+ipykernel>=6.31

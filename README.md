@@ -26,11 +26,12 @@ Phase actuelle : **exploration**. Chaque module établit quelles données sont e
 
 - **1 615 stations Citiz** sur 15 réseaux régionaux, **aucune en Outre-mer**. Auvergne-Rhône-Alpes est la région la plus équipée (613 stations).
 - Les flux GBFS Citiz décrivent bien **où** sont les stations (position, capacité, motorisation des voitures), mais **pas leur usage** : la date de dernière mise à jour des statuts a plus d'un an pour 57 % des stations. Détails dans [`citiz/`](citiz/README.md#résultats-de-lexploration).
+- La population d'Auvergne-Rhône-Alpes est disponible par carreau de 200 m (312 143 carreaux, 7,7 millions d'habitants) avec 11 scénarios de projection jusqu'en 2070 ([`population/`](population/README.md)).
 - Le réseau piéton OSM permet de calculer des distances à pied réelles autour des stations ([`regional-data/`](regional-data/README.md)).
 
 ### Données pas encore intégrées
 
-Population fine (carreaux INSEE 200 m), arrêts de transport en commun (GTFS), autres services partagés (Vélo'v, Dott, Leo&Go), projections démographiques.
+Arrêts de transport en commun (GTFS), autres services partagés (Vélo'v, Dott, Leo&Go). La population fine et les projections sont chargées mais pas encore croisées avec les stations ([`population/`](population/README.md)).
 
 ## Périmètre géographique
 
@@ -46,6 +47,7 @@ Population fine (carreaux INSEE 200 m), arrêts de transport en commun (GTFS), a
 ├── citiz/            module stations Citiz
 ├── ign-osm/          module d'apprentissage IGN / OpenStreetMap
 ├── regional-data/    livrable régional Auvergne-Rhône-Alpes
+├── population/       population INSEE Auvergne-Rhône-Alpes (carreaux 200 m, projections)
 ├── dashboard/        explorateur interactif
 └── output/           référence Citiz partagée entre les modules (versionnée)
 ```
