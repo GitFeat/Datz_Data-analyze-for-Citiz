@@ -17,6 +17,7 @@ Sujet complet : [`sujet/hackathon_mobility-project.pdf`](sujet/hackathon_mobilit
 |---|---|---|
 | Extraction des stations Citiz (GBFS, 15 flux régionaux) | ✅ fait | `notebook/citiz_gbfs_extraction.ipynb` |
 | Carte des stations Citiz en France + comptage par région / département | ✅ fait | `notebook/citiz_carte.ipynb` |
+| Préparation des données pour le Lakehouse Fabric (8 tables typées et contrôlées) | ✅ fait en local, 🟡 à charger dans Fabric | `notebook/lakehouse_preparation.ipynb` |
 | Choix de la zone d'étude | ✅ proposé : département du Rhône (voir ci-dessous) | — |
 | Recherche des coûts d'une station Citiz | 🟡 premières sources trouvées (voir ci-dessous) | — |
 | Population INSEE carreaux 200 m (Filosofi) | ⬜ à faire | — |
@@ -45,7 +46,7 @@ Les deux notebooks tournent dans Microsoft Fabric **ou** en local. Hors Fabric, 
 2. Lit le `gbfs.json` de chaque flux (gère GBFS 2.x et 3.0) pour trouver les sous-flux publiés.
 3. Lit `station_information`, `station_status` et `vehicle_types`.
 4. Nettoie : retire les coordonnées absentes ou hors France et DROM, et supprime les doublons entre flux qui se recoupent (AURA / Métropole de Lyon).
-5. Écrit 4 tables (Lakehouse Delta dans Fabric, CSV sinon) :
+5. Écrit 4 CSV bruts, dans `Files/raw/citiz/` du Lakehouse (Fabric) ou dans `output/` (local). Les tables Delta sont créées ensuite par `lakehouse_preparation.ipynb`.
 
 | Fichier | Contenu | Mode d'écriture |
 |---|---|---|
@@ -70,6 +71,57 @@ Les deux notebooks tournent dans Microsoft Fabric **ou** en local. Hors Fabric, 
 | `output/carte_citiz_stations.html` | carte interactive (s'ouvre dans un navigateur) |
 | `output/carte_citiz_departements.png` | nombre de stations par département |
 | `output/citiz_stations_geo.csv` | stations enrichies du département et de la région |
+
+### 3. `notebook/lakehouse_preparation.ipynb` : tables propres pour le Lakehouse
+
+1. Rassemble les fichiers bruts dans `Files/raw/` (CSV Citiz + contours GeoJSON).
+2. Type chaque colonne explicitement (identifiants en texte, dates UTC, booléens, entiers nullables).
+3. Vérifie la clé primaire de chaque table et les liens entre tables (aucun orphelin).
+4. Écrit chaque table en Parquet dans `Files/clean/` puis, dans Fabric, en table Delta.
+5. Produit un dictionnaire de données (`Files/clean/_dictionnaire.csv`).
+
+En local, il produit un dossier `lakehouse/` (non versionné) qui reproduit l'arborescence Fabric.
+
+## Lakehouse Fabric
+
+### Organisation
+
+```
+Files/
+├── raw/citiz/   CSV bruts de l'extraction GBFS (archive, jamais modifiés)
+├── raw/ign/     contours régions / départements
+└── clean/       Parquet typés + _dictionnaire.csv
+Tables/          tables Delta (SQL, Power BI)
+```
+
+Circuit : `citiz_gbfs_extraction` → `Files/raw/` → `lakehouse_preparation` → `Files/clean/` + `Tables/`.
+
+### Modèle de données
+
+| Table | Clé | Lignes | Contenu |
+|---|---|---|---|
+| `geo_region` | `code` | 13 | régions : nom, centroïde, contour WKT |
+| `geo_departement` | `code` | 96 | départements : nom, `region_code`, centroïde, contour WKT |
+| `citiz_reseau` | `source` | 15 | flux GBFS régionaux Citiz : nom court, URL, version, licence |
+| `citiz_station` | `station_uid` | 1 614 | stations : position, adresse, capacité, `dep_code`, `region_code` |
+| `citiz_vehicle_type` | `vehicle_type_uid` | 337 | modèles de voitures : marque, motorisation |
+| `citiz_station_status` | `station_uid` + `snapshot_ts` | 1 614 | disponibilité par station et par instantané (historique) |
+| `citiz_station_status_vehicle` | `station_uid` + `snapshot_ts` + `vehicle_type_uid` | 2 513 | détail des véhicules disponibles par type |
+| `param_cout` | `equipement` + `parametre` | 9 | paramètres de coût, avec statut sourcé / calculé / hypothèse |
+
+Liens : `citiz_station.source` → `citiz_reseau` ; `citiz_station.dep_code` → `geo_departement` ; `geo_departement.region_code` → `geo_region` ; `citiz_station_status*.station_uid` → `citiz_station` ; `*.vehicle_type_uid` → `citiz_vehicle_type`.
+
+Conventions : noms en minuscules sans accent, identifiants composés `source:id` (un même `station_id` existe dans plusieurs réseaux), géométries en WKT + `lat` / `lon`, colonne `_loaded_at` sur chaque table.
+
+### Charger les données dans Fabric
+
+1. **Créer le Lakehouse** : dans l'espace de travail Fabric de l'équipe, New item > Lakehouse (ex. `lh_mobility`).
+2. **Déposer les fichiers bruts** : Files > New subfolder `raw/citiz`, puis Upload > Upload files avec les 4 CSV de `output/` (ou le contenu de `lakehouse/Files/raw/citiz/`).
+3. **Importer les notebooks** : dans l'espace de travail, Import > Notebook > From this computer, pour `citiz_gbfs_extraction.ipynb` et `lakehouse_preparation.ipynb`.
+4. **Attacher le Lakehouse** à chaque notebook (panneau Explorer > Add data items > Existing data sources > `lh_mobility`), comme Lakehouse par défaut.
+5. **Lancer `lakehouse_preparation`** : les 8 tables apparaissent dans `Tables/`. Les contrôles « OK » et la requête SQL de la dernière cellule confirment le chargement.
+6. **Collecter l'historique** : planifier `citiz_gbfs_extraction` (Run > Schedule, toutes les 15 min) puis `lakehouse_preparation` (par exemple toutes les heures), ou les enchaîner dans un pipeline Fabric.
+7. **Power BI** : depuis le Lakehouse, New semantic model, sélectionner les tables, puis recréer les liens ci-dessus dans la vue Modèle.
 
 ## Choix de la zone d'étude : le Rhône (Métropole de Lyon)
 
@@ -123,6 +175,8 @@ Puis ouvrir les notebooks avec le noyau Python du `.venv`, en commençant par `c
 .
 ├── notebook/   # notebooks d'extraction et d'analyse
 ├── output/     # tables CSV et cartes produites (versionnées : utiles pour les slides)
+├── lakehouse/  # miroir local du Lakehouse Fabric (non versionné, régénéré)
+├── ign-osm/    # module IGN / OpenStreetMap (contours officiels, réseau piéton, accessibilité à 5 min)
 ├── data/       # données brutes téléchargées (non versionnées, re-téléchargées automatiquement)
 └── sujet/      # énoncé du hackathon
 ```
