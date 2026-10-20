@@ -7,6 +7,7 @@ Un carreau de 200 m × 200 m par ligne. 312 143 lignes. Les valeurs sont des **t
 | Colonne | Contenu |
 |---|---|
 | `idcar_200m` | Identifiant du carreau, de la forme `CRS3035RES200mN<nord>E<est>`. Contient les coordonnées du **coin sud-ouest**, en mètres (EPSG:3035) |
+| `lon`, `lat` | **Centre du carreau** en degrés (WGS84, EPSG:4326), arrondi à 6 décimales. Colonnes ajoutées : absentes du fichier INSEE d'origine |
 | `lcog_geo` | Code(s) commune. Plusieurs codes séparés par une virgule si le carreau chevauche plusieurs communes (`84120,26135`). Les 2 premiers caractères donnent le département |
 | `i_est_200` | Indicateur de valeurs ajustées par l'INSEE pour la confidentialité |
 | `ind` | Nombre d'habitants |
@@ -18,7 +19,7 @@ Un carreau de 200 m × 200 m par ligne. 312 143 lignes. Les valeurs sont des **t
 
 Les décimales (0,6 ménage…) viennent des ajustements de confidentialité de l'INSEE.
 
-**Coordonnées GPS** : ajouter 100 m au nord et à l'est pour obtenir le centre du carreau, puis convertir de EPSG:3035 vers EPSG:4326 (voir le notebook 01). Le code EPSG est lu dans l'identifiant.
+**Calcul de `lon` et `lat`** : 100 m ajoutés au nord et à l'est du coin sud-ouest donné par l'identifiant, puis conversion de EPSG:3035 vers EPSG:4326 (voir le notebook 01, qui refait ce calcul). Le code EPSG est lu dans l'identifiant.
 
 ## `reference/projections_omphale_aura/*.xlsx`
 

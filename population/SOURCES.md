@@ -9,7 +9,7 @@
 
 Les fichiers de `reference/` sont des **extraits** des fichiers INSEE, pas les fichiers complets :
 
-- Filosofi : lignes dont au moins une commune appartient à Auvergne-Rhône-Alpes (départements 01, 03, 07, 15, 26, 38, 42, 43, 63, 69, 73, 74), 18 colonnes conservées sur 34. Le fichier métropole fait 468 Mo, l'extrait 30 Mo.
+- Filosofi : lignes dont au moins une commune appartient à Auvergne-Rhône-Alpes (départements 01, 03, 07, 15, 26, 38, 42, 43, 63, 69, 73, 74), 18 colonnes conservées sur 34, plus `lon` et `lat` calculées à partir de l'identifiant du carreau. Le fichier métropole fait 468 Mo, l'extrait 30 Mo.
 - Projections : lignes des 12 départements (onglets `_DEP`) et de la région, code `84` (onglets `_REG`) ; onglet `Documentation` et colonnes 2018 à 2020 de `Population_*` supprimés.
 
 Les fichiers INSEE complets ne sont pas versionnés. Pour refaire l'extraction, les télécharger depuis les liens ci-dessus.
