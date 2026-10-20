@@ -1,0 +1,6 @@
+﻿,capacity,capacity,capacity,num_vehicles_available,num_vehicles_available,num_vehicles_available,amenities_count_500m,amenities_count_500m,amenities_count_500m,bike_parking_count_300m,bike_parking_count_300m,bike_parking_count_300m,tourism_sites_count_1km,tourism_sites_count_1km,tourism_sites_count_1km,osm_charging_sites_count_500m,osm_charging_sites_count_500m,osm_charging_sites_count_500m,parking_sites_count_300m,parking_sites_count_300m,parking_sites_count_300m
+,count,mean,median,count,mean,median,count,mean,median,count,mean,median,count,mean,median,count,mean,median,count,mean,median
+reseau,,,,,,,,,,,,,,,,,,,,,
+Auvergne Rhône Alpes (AURA),411,2.627737226277372,2.0,411,1.2652068126520681,1.0,411,51.08272506082725,26.0,411,21.289537712895378,10.0,411,39.503649635036496,11.0,411,1.2311435523114356,1.0,411,11.965936739659368,7.0
+Développement,1,1.0,1.0,1,1.0,1.0,1,22.0,22.0,1,1.0,1.0,1,1.0,1.0,1,1.0,1.0,1,9.0,9.0
+Métropole de Lyon,200,2.53,2.0,200,2.3,2.0,200,23.59,15.0,200,8.04,6.0,200,13.755,4.0,200,0.56,0.0,200,2.07,1.0

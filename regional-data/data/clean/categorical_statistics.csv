@@ -1,0 +1,21 @@
+﻿variable,non_null_count,missing_count,unique_non_null,top_value,top_count,top_percent_non_null
+station_uid,612,0,612,offre-et-disponibilite-temps-reel-du-service-citiz-en-autopartage-metropole-de-lyon:1115,1,0.16339869281045752
+station_name,612,0,612,Lyon 2ème - Parking LPA République,1,0.16339869281045752
+walking_network_status,612,0,1,matched,612,100.0
+public_parking_spaces_300m_status,612,0,2,unknown_access_or_capacity,555,90.68627450980392
+irve_count_500m_status,612,0,1,charging_units_not_defined_osm_sites_only,612,100.0
+transit_departures_peak_hour_status,612,0,1,missing_gtfs_service_date_and_peak_window,612,100.0
+pedestrian_network_distance_m_status,612,0,1,missing_origins_destinations_and_regional_graph,612,100.0
+accidents_count_500m_status,612,0,1,missing_accident_data_and_period,612,100.0
+osm_count_status,612,0,1,observed_mapped_objects_not_exhaustive,612,100.0
+osm_extraction_has_geometry_issues,612,0,1,True,612,100.0
+radius_300m_inside_ign_region,612,0,2,True,608,99.34640522875817
+radius_500m_inside_ign_region,612,0,2,True,604,98.69281045751634
+radius_1000m_inside_ign_region,612,0,2,True,592,96.73202614379085
+boundary_coverage_status,612,0,2,within_region_conservative_check,592,96.73202614379085
+departement,612,0,9,Isère,218,35.62091503267974
+region,612,0,1,Auvergne-Rhône-Alpes,612,100.0
+reseau,612,0,3,Auvergne Rhône Alpes (AURA),411,67.15686274509804
+is_renting,612,0,1,True,612,100.0
+extracted_at,612,0,1,2026-10-19 14:43:54.580579+00:00,612,100.0
+station_reference_match,612,0,1,both,612,100.0

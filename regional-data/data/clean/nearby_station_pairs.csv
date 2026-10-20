@@ -1,0 +1,18 @@
+﻿station_uid_a,station_name_a,station_uid_b,station_name_b,distance_m
+provider_5:1057,Malraux-CCI,provider_5:807,Malraux CCI [Station électrique],0.0
+provider_5:1082,Plan de ville,provider_5:1247,Plan-de-Ville,0.0
+provider_5:1055,Jean Achard [Station électrique],provider_5:882,Jean Achard,0.0
+provider_5:1245,Mairie Poisat [Station électrique],provider_5:937,Mairie de Poisat,0.0
+provider_5:1694,Centre bourg FLEX,provider_5:841,Centre Bourg,0.0
+provider_5:1707,CEA Marie louise ,provider_5:940,CEA Marie-Louise Paris [Station électrique],0.0
+provider_5:1081,Pole Bus 2,provider_5:859,Pole Bus,5.514282390455326
+provider_5:1211,SNCF Gare de Voiron [Station électrique],provider_5:790,SNCF Gare de Voiron,7.8073005636790995
+provider_5:1025,MC2-Paul Claudel,provider_5:735,MC2,10.24484526480389
+provider_5:867,Thiers (53),provider_5:868,Charles Testoud,17.020630334677826
+provider_5:1041,Marval (2),provider_5:977,Paul Dijon,17.335442588525297
+provider_5:1028,Hôtel de Ville [Station électrique],provider_5:1059,Hôtel de ville,17.970236963829105
+provider_5:836,CEA Cambridge,provider_5:995,CEA Metrovélo,19.1463076491423
+provider_5:795,DEMOBOX (Réservé Citiz),provider_5:803,Agence Citiz,20.914371343110385
+provider_5:763,Bd Marechal Joffre-park hotel,provider_5:881,Bd Marechal Joffre-Humanis,21.2800244385017
+provider_5:818,Bonne [Station électrique],provider_5:944,Marceau (15),21.68549814302406
+provider_5:1034,Quais de France (48),provider_5:798,Esplanade - Jardin des Dauphins,25.396358510470478

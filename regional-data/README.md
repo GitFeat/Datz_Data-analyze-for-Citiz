@@ -16,6 +16,7 @@ Exécuter les notebooks dans l'ordre, en lisant les explications avant les cellu
 4. [Explorer le catalogue des lieux OSM](notebooks/05_osm_places_catalog.ipynb) : objets géographiques et établissements, catégorie OSM précise, grande famille, tags d'origine et exports filtrables.
 5. [Exporter un tableau OSM pour AURA](notebooks/06_osm_aura_table.ipynb) : crée un CSV filtrable avec une ligne par objet, sa catégorie précise, sa grande famille et ses coordonnées.
 6. [Exporter la table finale de release](notebooks/07_release_final_table.ipynb) : croise les indicateurs régionaux et le référentiel Citiz par `station_uid`, contrôle la jointure et exporte le CSV accompagné de sa documentation et de son manifeste.
+7. [Lister les colonnes et modalités de la table finale](notebooks/08_citiz_aura_columns_modalities.ipynb) : inventaire des types, bornes numériques, modalités avec effectifs et pourcentages, valeurs manquantes et colonnes constantes. Exécuté sur 612 stations et 50 colonnes : 5 colonnes entièrement vides et 555 valeurs manquantes pour le total strict des places publiques. Une cellule permet de consulter toutes les modalités d'une colonne au choix, sans modifier les sources.
 
 ### Table finale pour la release
 

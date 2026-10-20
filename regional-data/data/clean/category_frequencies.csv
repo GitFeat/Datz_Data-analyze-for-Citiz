@@ -1,0 +1,34 @@
+﻿variable,value,count,percent_all_stations
+walking_network_status,matched,612,100.0
+public_parking_spaces_300m_status,unknown_access_or_capacity,555,90.68627450980392
+public_parking_spaces_300m_status,complete_for_mapped_objects,57,9.313725490196079
+irve_count_500m_status,charging_units_not_defined_osm_sites_only,612,100.0
+transit_departures_peak_hour_status,missing_gtfs_service_date_and_peak_window,612,100.0
+pedestrian_network_distance_m_status,missing_origins_destinations_and_regional_graph,612,100.0
+accidents_count_500m_status,missing_accident_data_and_period,612,100.0
+osm_count_status,observed_mapped_objects_not_exhaustive,612,100.0
+osm_extraction_has_geometry_issues,True,612,100.0
+radius_300m_inside_ign_region,True,608,99.34640522875817
+radius_300m_inside_ign_region,False,4,0.6535947712418301
+radius_500m_inside_ign_region,True,604,98.69281045751634
+radius_500m_inside_ign_region,False,8,1.3071895424836601
+radius_1000m_inside_ign_region,True,592,96.73202614379085
+radius_1000m_inside_ign_region,False,20,3.2679738562091507
+boundary_coverage_status,within_region_conservative_check,592,96.73202614379085
+boundary_coverage_status,source_edge_coverage_not_verified,20,3.2679738562091507
+departement,Isère,218,35.62091503267974
+departement,Rhône,208,33.98692810457516
+departement,Savoie,70,11.437908496732026
+departement,Haute-Savoie,64,10.457516339869281
+departement,Loire,23,3.758169934640523
+departement,Drôme,19,3.104575163398693
+departement,Ain,8,1.3071895424836601
+departement,Cantal,1,0.16339869281045752
+departement,Ardèche,1,0.16339869281045752
+region,Auvergne-Rhône-Alpes,612,100.0
+reseau,Auvergne Rhône Alpes (AURA),411,67.15686274509804
+reseau,Métropole de Lyon,200,32.6797385620915
+reseau,Développement,1,0.16339869281045752
+is_renting,True,612,100.0
+extracted_at,2026-10-19 14:43:54.580579+00:00,612,100.0
+station_reference_match,both,612,100.0

@@ -1,0 +1,12 @@
+﻿,unique_non_null
+walking_network_status,1
+irve_count_500m_status,1
+transit_departures_peak_hour_status,1
+pedestrian_network_distance_m_status,1
+accidents_count_500m_status,1
+osm_count_status,1
+osm_extraction_has_geometry_issues,1
+region,1
+is_renting,1
+extracted_at,1
+station_reference_match,1
