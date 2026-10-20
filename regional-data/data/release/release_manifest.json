@@ -1,0 +1,64 @@
+{
+  "exported_at_utc": "2026-10-20T07:51:27.736709+00:00",
+  "rows": 612,
+  "columns": 50,
+  "primary_key": "station_uid",
+  "scope": "Auvergne-Rhone-Alpes (IGN regional station selection)",
+  "csv": {
+    "encoding": "utf-8-sig",
+    "separator": ",",
+    "decimal": ".",
+    "missing_value": ""
+  },
+  "join": {
+    "key": "station_uid",
+    "how": "left",
+    "validate": "one_to_one",
+    "all_matched": true
+  },
+  "citiz_extracted_at": [
+    "2026-10-19 14:43:54.580579+00:00"
+  ],
+  "inputs": [
+    {
+      "path": "regional-data/data/processed/station_features.csv",
+      "bytes": 282370,
+      "sha256": "9176047c3c52212747ee9c0239b03a30829c2a79730097ac992229557a7f1d99"
+    },
+    {
+      "path": "output/citiz_stations_geo.csv",
+      "bytes": 463504,
+      "sha256": "7e3a84593dbacb6a8591d51ea4da2a368c6cf391ec52a2ff9edad832bbaae683"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "regional-data/data/release/citiz_aura_final.csv",
+      "bytes": 345766,
+      "sha256": "684883fb65ed3c12e20a4923ae917a6e076629666617dbaf088920aec281833b"
+    },
+    {
+      "path": "regional-data/data/release/citiz_aura_quality.csv",
+      "bytes": 2014,
+      "sha256": "5f8849eeaf7e579e6d612a0d4a8f33810538bffde9914882659a3994dc1ad3fd"
+    },
+    {
+      "path": "regional-data/data/release/DATA_DICTIONARY.md",
+      "bytes": 5028,
+      "sha256": "b71645d90d9b69019f4cef9dba78152927abb68b73989154484a079173995e09"
+    },
+    {
+      "path": "regional-data/data/release/SOURCES.md",
+      "bytes": 2610,
+      "sha256": "15db395ac9e3f73a66eb376dab08ec079d8464668168c623c95c5a4e281d1d75"
+    },
+    {
+      "path": "regional-data/data/release/README.md",
+      "bytes": 2169,
+      "sha256": "d312715cd1cdff7e703ff67d8926a778151e5cb49156108904f6ca229da57714"
+    }
+  ],
+  "versions": {
+    "pandas": "2.3.3"
+  }
+}

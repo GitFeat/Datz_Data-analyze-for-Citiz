@@ -9,6 +9,7 @@ __pycache__/
 
 # Données brutes téléchargées (re-téléchargées par les notebooks, parfois volumineuses : INSEE, GTFS, OSM)
 data/
+!regional-data/data
 *.zip
 *.gpkg
 *.pbf

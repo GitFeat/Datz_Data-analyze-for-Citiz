@@ -1,0 +1,8 @@
+{
+  "station_count": 612,
+  "municipality_count": 4025,
+  "invalid_coordinate_count": 0,
+  "station_source": "output/citiz_stations_geo.csv",
+  "region_code": "84",
+  "counting_margin_m": 1000
+}

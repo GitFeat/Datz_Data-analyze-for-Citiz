@@ -1,0 +1,14 @@
+{
+  "station_count": 612,
+  "osm_object_count": 192803,
+  "geometry_issue_count": 35,
+  "parking_space_totals_available": 57,
+  "stations_requiring_boundary_coverage_check": 20,
+  "scope": "Auvergne-Rhone-Alpes; walking-network radii and straight-line comparison; mapped OSM objects",
+  "not_computed": [
+    "irve_count_500m",
+    "transit_departures_peak_hour",
+    "pedestrian_network_distance_m",
+    "accidents_count_500m"
+  ]
+}

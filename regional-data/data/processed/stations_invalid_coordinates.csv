@@ -1,0 +1,1 @@
+source,station_id,name,short_name,lat,lon,address,post_code,city,capacity,is_virtual_station,vehicle_types_capacity,sources,station_uid,extracted_at,num_vehicles_available,is_renting,geometry_wkt,reseau,dep_code,departement,region

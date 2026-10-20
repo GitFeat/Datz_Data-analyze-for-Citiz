@@ -1,0 +1,25 @@
+{
+  "inputs": {
+    "version": 1,
+    "margin_m": 1300,
+    "stations_sha256": "f61fca0b6ef1fdd66829e53a5b0875e6d48db62f5411e1884565a2d1f86da81a",
+    "rules_sha256": "b307a86c3cfc94ea34d1270a7204806ac1bc6df20e2c6e0ba81f3d7398a2989a",
+    "sources": [
+      {
+        "name": "auvergne-261016.osm.pbf",
+        "size": 156231713,
+        "modified_ns": 1792442225353165898
+      },
+      {
+        "name": "rhone-alpes-261016.osm.pbf",
+        "size": 531106658,
+        "modified_ns": 1792443215653135822
+      }
+    ]
+  },
+  "edge_count": 1075941,
+  "node_count": 986128,
+  "incomplete_way_count": 0,
+  "blocked_source_node_count": 175019,
+  "status": "prototype_undirected_node_filtered_relations_not_handled"
+}
