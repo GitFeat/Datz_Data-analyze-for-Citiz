@@ -15,6 +15,15 @@ Exécuter les notebooks dans l'ordre, en lisant les explications avant les cellu
 3. [Calculer les indicateurs](notebooks/03_compute_station_features.ipynb) : distances sur les chemins piétons OSM, comparaison avec les rayons à vol d'oiseau, capacités connues et aperçu régional.
 4. [Explorer le catalogue des lieux OSM](notebooks/05_osm_places_catalog.ipynb) : objets géographiques et établissements, catégorie OSM précise, grande famille, tags d'origine et exports filtrables.
 5. [Exporter un tableau OSM pour AURA](notebooks/06_osm_aura_table.ipynb) : crée un CSV filtrable avec une ligne par objet, sa catégorie précise, sa grande famille et ses coordonnées.
+6. [Exporter la table finale de release](notebooks/07_release_final_table.ipynb) : croise les indicateurs régionaux et le référentiel Citiz par `station_uid`, contrôle la jointure et exporte le CSV accompagné de sa documentation et de son manifeste.
+
+### Table finale pour la release
+
+Le notebook 07 a été exécuté depuis un noyau neuf : **612 lignes, 50 colonnes**, identifiants uniques et toutes les références Citiz retrouvées. Le CSV a été relu et comparé au tableau avant écriture, y compris ses valeurs manquantes.
+
+Le fichier final est [`data/release/citiz_aura_final.csv`](data/release/citiz_aura_final.csv). Il correspond à la table croisée du dashboard : une ligne par station AURA, avec indicateurs OSM, département, réseau, capacité et instantané Citiz extrait le **19 octobre 2026**. Les fichiers de qualité, le manifeste SHA-256, le dictionnaire, les sources et le guide sont livrés dans le même dossier. L'encodage est UTF-8 avec BOM, le séparateur est la virgule et les cellules inconnues restent vides.
+
+Le dossier `data/release/` est exclu de Git comme les autres données ; joindre ses fichiers à la release séparément. Ce notebook prépare les fichiers localement, sans publication externe.
 
 Un notebook est un document exécutable. Les cellules de code doivent être lancées dans l'ordre. Redémarrer le noyau puis tout exécuter permet de vérifier la reproductibilité.
 
