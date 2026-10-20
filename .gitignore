@@ -19,9 +19,6 @@ data/
 *.pbf
 *.parquet
 
-# Miroir local du Lakehouse Fabric (régénéré par notebook/lakehouse_preparation.ipynb)
-lakehouse/
-
 # Éditeurs et système
 .vscode/
 .idea/
