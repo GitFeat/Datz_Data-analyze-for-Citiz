@@ -1,4 +1,23 @@
-.vscode
-.aws
-.codex
-.agents
+# Environnement Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Données brutes téléchargées (re-téléchargées par les notebooks, parfois volumineuses : INSEE, GTFS, OSM)
+data/
+*.zip
+*.gpkg
+*.pbf
+*.parquet
+
+# Éditeurs et système
+.vscode/
+.idea/
+.DS_Store
+
+# Secrets
+.env
