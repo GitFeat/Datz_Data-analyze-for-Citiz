@@ -1,3 +1,7 @@
+.vscode
+.aws
+.codex
+.agents
 # Environnement Python
 .venv/
 venv/
