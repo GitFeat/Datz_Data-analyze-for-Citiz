@@ -1,0 +1,33 @@
+{
+  "generated_at_utc": "2026-10-19T21:37:23.843475+00:00",
+  "sources": [
+    {
+      "path": "output/citiz_stations_geo.csv",
+      "size_bytes": 463504,
+      "sha256": "7e3a84593dbacb6a8591d51ea4da2a368c6cf391ec52a2ff9edad832bbaae683"
+    },
+    {
+      "path": "ign-osm/data/processed/region_84.geojson",
+      "size_bytes": 5222883,
+      "sha256": "76155dcf11a66d249621ebd106b122e0ad1ec10fb248e1571933fa254df92fa7"
+    },
+    {
+      "path": "ign-osm/data/processed/municipalities_84.geojson",
+      "size_bytes": 168069065,
+      "sha256": "71bea93c0b714649099be4e08eb2a7c049c021f802b8c98ebafc40e39d2718d0"
+    },
+    {
+      "path": "ign-osm/data/raw/osm/auvergne-261016.osm.pbf",
+      "size_bytes": 156231713,
+      "sha256": "16981cfc3e07c89235692531c5634d3d46bc3334ea73aea0a4769622f18923e0"
+    },
+    {
+      "path": "ign-osm/data/raw/osm/rhone-alpes-261016.osm.pbf",
+      "size_bytes": 531106658,
+      "sha256": "25d97f1eaa879aee199c899b8311cf740d4280d8539cd962ae8e3777fe56860a"
+    }
+  ],
+  "station_snapshot_dates": [
+    "2026-10-19 14:43:54.581000+00:00"
+  ]
+}
