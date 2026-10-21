@@ -26,3 +26,6 @@ data/
 
 # Secrets
 .env
+
+# Archives brutes de source/ (re-téléchargées par source/fetch_sources.py)
+source/_archives/

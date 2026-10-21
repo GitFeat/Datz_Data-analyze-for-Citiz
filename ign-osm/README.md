@@ -140,9 +140,13 @@ Les deux extraits peuvent se chevaucher : leurs objets devront être dédoublonn
 
 **Prochaine étape pédagogique :** lire quelques objets OSM sur une petite zone et comprendre leurs attributs avant de construire un graphe piéton.
 
+## Parcours pédagogique : notebooks 04 à 08
+
+Les notebooks 04 à 08 sont rangés dans [`notebooks/learning/`](notebooks/learning/). Ils construisent pas à pas un réseau piéton et un rayon de 5 minutes sur un exemple à Clermont-Ferrand. Ils ne font pas partie du pipeline de l'équipe : leurs règles piétonnes et leur calcul d'accessibilité sont repris pour toute la région par `regional-data/walking_rules.py` et `regional-data/walking_network.py`. Seuls les notebooks 01 à 03 produisent des entrées utilisées ailleurs (contours IGN, extraits OSM).
+
 ## Quatrième notebook : explorer les rues OSM
 
-Ouvrir [04_osm_streets_exploration.ipynb](notebooks/04_osm_streets_exploration.ipynb) avec le noyau **Python (IGN / OSM)**. Ce notebook utilise **PyOsmium** (`osmium`), ajouté à `requirements.txt`, pour lire l'extrait local Auvergne. Aucun téléchargement supplémentaire de données n'est nécessaire.
+Ouvrir [04_osm_streets_exploration.ipynb](notebooks/learning/04_osm_streets_exploration.ipynb) avec le noyau **Python (IGN / OSM)**. Ce notebook utilise **PyOsmium** (`osmium`), ajouté à `requirements.txt`, pour lire l'extrait local Auvergne. Aucun téléchargement supplémentaire de données n'est nécessaire.
 
 Sur une autre machine, installer les dépendances mises à jour avec :
 
@@ -169,7 +173,7 @@ Cette sortie est **exploratoire** : les voies sont découpées au rectangle et l
 
 ## Cinquième notebook : premier filtre piéton
 
-Ouvrir [05_osm_walking_filter.ipynb](notebooks/05_osm_walking_filter.ipynb) avec **Python (IGN / OSM)**. Aucune dépendance supplémentaire n'est nécessaire. Le notebook 04 a été enrichi pour conserver les tags `motorroad`, les restrictions piétonnes conditionnelles et directionnelles, ainsi que les horaires. Relancer sa version actuelle si le notebook 05 signale des colonnes manquantes.
+Ouvrir [05_osm_walking_filter.ipynb](notebooks/learning/05_osm_walking_filter.ipynb) avec **Python (IGN / OSM)**. Aucune dépendance supplémentaire n'est nécessaire. Le notebook 04 a été enrichi pour conserver les tags `motorroad`, les restrictions piétonnes conditionnelles et directionnelles, ainsi que les horaires. Relancer sa version actuelle si le notebook 05 signale des colonnes manquantes.
 
 Le profil donne à chaque voie un statut `included`, `excluded` ou `review`, accompagné d'une raison en anglais. Les règles sont expliquées avant leur fonction Python. Les restrictions spécifiques `foot` sont prioritaires sur `access`. Les accès publics usuels sont retenus, les accès privés ou interdits sont écartés et les cas limités, horaires ou ambigus sont laissés à examiner. Les types de voie retenus par défaut sont des hypothèses explicites du prototype.
 
@@ -197,7 +201,7 @@ Les règles suivent les conventions de tags documentées dans le [wiki OSM sur l
 
 ## Sixième notebook : construire le graphe
 
-Ouvrir [06_osm_graph.ipynb](notebooks/06_osm_graph.ipynb) avec **Python (IGN / OSM)** après les notebooks 04 et 05. La dépendance **NetworkX** a été ajoutée à `requirements.txt` et installée dans l'environnement local.
+Ouvrir [06_osm_graph.ipynb](notebooks/learning/06_osm_graph.ipynb) avec **Python (IGN / OSM)** après les notebooks 04 et 05. La dépendance **NetworkX** a été ajoutée à `requirements.txt` et installée dans l'environnement local.
 
 Le notebook explique un graphe comme deux tableaux : les points (**nœuds**) et les liens (**arêtes**). Il relit les 3 399 voies retenues dans le PBF source, récupère leurs identifiants de nœuds et crée un segment entre chaque paire consécutive. Les connexions reposent sur les identifiants OSM communs ; aucun lien n'est ajouté aux seuls croisements visuels des lignes.
 
@@ -229,7 +233,7 @@ Ce graphe est une **structure exploratoire**, pas encore un réseau validé pour
 
 ## Septième notebook : un premier trajet concret
 
-Ouvrir [07_osm_example_route.ipynb](notebooks/07_osm_example_route.ipynb) avec **Python (IGN / OSM)** après le notebook 06. Aucune nouvelle dépendance ni récupération de données n'est nécessaire.
+Ouvrir [07_osm_example_route.ipynb](notebooks/learning/07_osm_example_route.ipynb) avec **Python (IGN / OSM)** après le notebook 06. Aucune nouvelle dépendance ni récupération de données n'est nécessaire.
 
 Le notebook relit les tags des 10 101 nœuds du graphe dans le PBF pour contrôler les barrières et les accès. Il conserve les décisions dans un CSV, retire les nœuds exclus ou à examiner, puis cherche un chemin entre deux points d'exemple proches du centre de Clermont-Ferrand. Les points ne représentent pas des stations Citiz ou des adresses validées.
 
@@ -259,7 +263,7 @@ Ce trajet illustre le fonctionnement du graphe ; il n'est pas un itinéraire de 
 
 ## Huitième notebook : cinq minutes de marche depuis un point
 
-Ouvrir [08_osm_five_minute_reachability.ipynb](notebooks/08_osm_five_minute_reachability.ipynb) avec **Python (IGN / OSM)** après le notebook 07. Il reprend le départ et le réseau filtré de la démonstration précédente. Aucune nouvelle dépendance ni récupération de données n'est nécessaire.
+Ouvrir [08_osm_five_minute_reachability.ipynb](notebooks/learning/08_osm_five_minute_reachability.ipynb) avec **Python (IGN / OSM)** après le notebook 07. Il reprend le départ et le réseau filtré de la démonstration précédente. Aucune nouvelle dépendance ni récupération de données n'est nécessaire.
 
 À 4,8 km/h, cinq minutes correspondent à 400 m parcourus. Le notebook utilise Dijkstra avec cette limite pour trouver les nœuds accessibles, puis découpe les segments partiellement atteignables. Un segment peut être rejoint depuis ses deux extrémités ; les portions qui se chevauchent sont fusionnées et un éventuel milieu inaccessible reste exclu.
 

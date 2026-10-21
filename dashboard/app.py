@@ -23,11 +23,8 @@ def read_table(label, signature):
     return load_table(label)
 
 
-dependencies = [path]
-if label == "Stations et équipements croisés (AURA)":
-    dependencies.append(ROOT / TABLES["Stations Citiz (France)"])
 try:
-    signature = tuple(p.stat().st_mtime_ns for p in dependencies)
+    signature = path.stat().st_mtime_ns
     df = read_table(label, signature)
 except (OSError, ValueError) as error:
     st.error(f"Impossible de préparer les données : {error}")

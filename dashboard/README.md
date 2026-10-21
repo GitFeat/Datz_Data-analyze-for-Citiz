@@ -13,7 +13,7 @@ Ouvrir http://localhost:8501. Arrêter avec Ctrl+C. Les données sources ne sont
 
 ## Données proposées
 
-- **Stations et équipements croisés (AURA)** : les indicateurs OSM par station, enrichis avec le département, le réseau, la capacité et l’instantané de disponibilité Citiz. Jointure gauche `station_uid`, vérifiée une à une ; les doublons provoquent une erreur plutôt qu’une multiplication silencieuse des lignes. `station_reference_match` indique si la référence a été retrouvée.
+- **Stations et équipements croisés (AURA)** : la table finale de la release, `regional-data/data/release/citiz_aura_final.csv` : les indicateurs OSM par station, enrichis avec le département, le réseau, la capacité et l’instantané de disponibilité Citiz. La jointure `station_uid` est faite et contrôlée une seule fois, par `regional-data/notebooks/07_release_final_table.ipynb` ; `station_reference_match` indique si la référence a été retrouvée.
 - **Stations Citiz (France)** : référentiel national enrichi.
 - **Disponibilité Citiz** : instantané avec ses dates, sans reconstruction d’un historique.
 - **Catalogue OSM** : lieux, familles, catégories et coordonnées. Table complète, sans échantillonnage ; son ouverture peut prendre davantage de temps. Les colonnes `countable`, `inside_region` et `duplicate_of` doivent guider les filtres avant un comptage.

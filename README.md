@@ -17,10 +17,24 @@ Phase actuelle : **exploration**. Chaque module établit quelles données sont e
 
 | Module | Contenu | Statut |
 |---|---|---|
-| [`citiz/`](citiz/README.md) | Stations Citiz (GBFS) : extraction, qualité des données, cartes, préparation Lakehouse Fabric | exploration terminée pour les flux Citiz |
-| [`ign-osm/`](ign-osm/README.md) | Parcours d'apprentissage : contours IGN, données OpenStreetMap, réseau piéton, 5 min de marche autour d'un point | parcours pédagogique, exemples sur Clermont-Ferrand |
+| [`citiz/`](citiz/README.md) | Stations Citiz (GBFS) : extraction, qualité des données, rattachement au département, cartes | exploration terminée pour les flux Citiz |
+| [`ign-osm/`](ign-osm/README.md) | Contours IGN et extraits OpenStreetMap (notebooks 01 à 03) ; parcours pédagogique du réseau piéton dans `notebooks/learning/` | entrées de `regional-data/` |
 | [`regional-data/`](regional-data/README.md) | Livrable régional Auvergne-Rhône-Alpes : équipements OSM et distances à pied autour de chaque station Citiz | table finale disponible (`data/release/`) |
+| [`population/`](population/README.md) | Population INSEE par carreau de 200 m et projections 2021-2070 | carreaux avec coordonnées, pas encore croisés avec les stations |
+| [`lakehouse/`](lakehouse/README.md) | Tables typées et contrôlées pour Microsoft Fabric, assemblées depuis les modules ci-dessus | 10 tables, exécuté en local, pas encore dans Fabric |
 | [`dashboard/`](dashboard/README.md) | Exploration interactive des tables CSV (Streamlit + PyGWalker) | outil d'exploration |
+
+## Pipeline de l'équipe
+
+Chaque module produit une étape ; `lakehouse/` les assemble. Les notebooks d'analyse (`citiz` 02, `regional-data` 08 et 09) et le parcours pédagogique d'`ign-osm` ne sont pas sur ce chemin.
+
+1. `citiz` 01 → 03 : stations Citiz, nettoyées et rattachées à leur département.
+2. `ign-osm` 01 → 03 : contours IGN et extraits OSM d'Auvergne-Rhône-Alpes.
+3. `regional-data` 01 → 03, puis 07 : indicateurs à pied autour de chaque station, table finale `data/release/citiz_aura_final.csv`.
+4. `population/reference/` : carreaux de 200 m avec leurs coordonnées (fichier versionné).
+5. `lakehouse` 01 : 10 tables pour Fabric, dans `lakehouse/data/Files/`. La liste des fichiers à déposer est dans [`lakehouse/README.md`](lakehouse/README.md#fichiers-à-déposer-dans-fabric).
+
+Reste à faire : la population desservie par station (à 400 m, soit 5 min à pied) et les arrêts de transport en commun.
 
 ### Principaux constats
 
@@ -31,7 +45,7 @@ Phase actuelle : **exploration**. Chaque module établit quelles données sont e
 
 ### Données pas encore intégrées
 
-Arrêts de transport en commun (GTFS), autres services partagés (Vélo'v, Dott, Leo&Go). La population fine et les projections sont chargées mais pas encore croisées avec les stations ([`population/`](population/README.md)).
+Arrêts de transport en commun (GTFS), autres services partagés (Vélo'v, Dott, Leo&Go). Les carreaux de population sont dans le Lakehouse mais pas encore croisés avec les stations ([`population/`](population/README.md)).
 
 ## Périmètre géographique
 
@@ -45,11 +59,13 @@ Arrêts de transport en commun (GTFS), autres services partagés (Vélo'v, Dott,
 .
 ├── sujet/            énoncé du hackathon
 ├── citiz/            module stations Citiz
-├── ign-osm/          module d'apprentissage IGN / OpenStreetMap
+├── ign-osm/          contours IGN, extraits OSM et parcours pédagogique
 ├── regional-data/    livrable régional Auvergne-Rhône-Alpes
 ├── population/       population INSEE Auvergne-Rhône-Alpes (carreaux 200 m, projections)
+├── lakehouse/        tables pour Microsoft Fabric, assemblées depuis les modules
 ├── dashboard/        explorateur interactif
-└── output/           référence Citiz partagée entre les modules (versionnée)
+├── output/           référence Citiz partagée entre les modules (versionnée)
+└── SOURCES.md        liste unique des sources de données
 ```
 
 Chaque module suit la même organisation :
@@ -62,7 +78,15 @@ Chaque module suit la même organisation :
 | `DATA_DICTIONARY.md` | Signification des colonnes produites |
 | `requirements.txt` | Dépendances Python, versions figées |
 | `AGENTS.md` | Consignes pour les assistants de code |
-| `data/` | Données téléchargées et produites, **non versionnées**, recréées par les notebooks |
+| `data/` | Données téléchargées et produites, recréées par les notebooks ; non versionnées sauf exceptions ci-dessous |
+
+## Environnements Python
+
+| Environnement | Modules | Remarque |
+|---|---|---|
+| `.venv` à la racine | `citiz/`, `lakehouse/`, `population/`, `regional-data` 08 et 09 | pandas 3.0 ; installer `citiz/requirements.txt`, `lakehouse/requirements.txt` et `population/requirements.txt` |
+| `ign-osm/.venv` (noyau « Python (IGN / OSM) ») | `ign-osm/`, `regional-data` 01 à 07 | PyOsmium, NetworkX |
+| à part | `dashboard/` | exige `pandas<3`, incompatible avec le `.venv` racine |
 
 ## Conventions communes
 
@@ -71,7 +95,7 @@ Chaque module suit la même organisation :
 - Notebooks exécutés dans l'ordre depuis un noyau neuf avant d'être poussés ; les README décrivent les résultats obtenus, pas les résultats prévus.
 - `station_uid` (`source:station_id`) est la clé de jointure entre modules.
 - Une donnée manquante n'est jamais remplacée par zéro.
-- Les données ne sont pas versionnées, sauf la référence partagée de `output/`.
+- Les données ne sont pas versionnées, sauf la référence partagée de `output/`, les extraits INSEE de `population/reference/` et `regional-data/data/` (hors GeoPackage).
 
 ## Référence partagée : `output/`
 
@@ -81,4 +105,4 @@ Trois fichiers Citiz, instantané du 19/10/2026, lus par les autres modules. Voi
 
 - [ ] Code du projet sur le dépôt Git
 - [ ] Slides de la présentation, sur le même dépôt
-- [ ] Liste des sources de données (voir les `SOURCES.md` de chaque module)
+- [x] Liste des sources de données : [`SOURCES.md`](SOURCES.md)

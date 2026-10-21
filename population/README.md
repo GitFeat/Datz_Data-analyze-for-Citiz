@@ -15,9 +15,9 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r population/requirements.txt
 ```
 
-Dans VS Code, choisir le noyau Python de ce `.venv`. Les deux notebooks sont indépendants et n'utilisent que les fichiers de `reference/`, sans Internet.
+Dans VS Code, choisir le noyau Python de ce `.venv`. Les deux notebooks sont indépendants et n'utilisent que les fichiers de `reference/`, sans Internet. Ils retrouvent ces fichiers depuis la racine du dépôt : on peut les lancer depuis n'importe quel dossier.
 
-1. [Carreaux Filosofi 200 m](notebooks/01_filosofi_population_grid.ipynb) : charge le CSV avec DuckDB, convertit l'identifiant du carreau en latitude / longitude, ajoute le département, le niveau de vie moyen et la part des 65 ans et plus, puis trace distributions, cartes de densité, structure par âge et niveau de vie.
+1. [Carreaux Filosofi 200 m](notebooks/01_filosofi_population_grid.ipynb) : charge le CSV avec DuckDB, lit la latitude / longitude du centre de chaque carreau, ajoute le département, le niveau de vie moyen et la part des 65 ans et plus, puis trace distributions, cartes de densité, structure par âge et niveau de vie.
 2. [Projections Omphale](notebooks/02_population_projections.ipynb) : évolution de la population par département (2021-2070), comparaison des 11 scénarios, structure par âge 2018 contre 2070, part des 65 ans et plus, moteurs de la croissance.
 
 ## Fichiers
@@ -42,4 +42,5 @@ Contrairement aux autres modules, les données sont **versionnées** : ce sont d
 - Le lien entre les carreaux et les projections n'est pas construit. Il passerait par le département (2 premiers caractères de `lcog_geo`), avec une évolution identique pour tous les carreaux d'un département.
 - Les carreaux à cheval sur plusieurs communes ont plusieurs codes dans `lcog_geo` ; certains portent le code d'un département voisin.
 - Le centre du carreau représente toute sa population : approximation d'environ 100 m.
-- Notebooks testés avec Python 3.9, pandas 2.3, DuckDB 1.4 et pyproj 3.6.
+- Notebooks testés avec Python 3.9, pandas 2.3, DuckDB 1.4 et pyproj 3.6, puis le 20/10/2026 avec le `.venv` racine (Python 3.12, pandas 3.0, DuckDB 1.5).
+- Les carreaux sont chargés dans le Lakehouse (table `population_grid_aura`, voir [`lakehouse/`](../lakehouse/README.md)), avec leur contour et leur département ; ils ne sont pas encore croisés avec les stations.

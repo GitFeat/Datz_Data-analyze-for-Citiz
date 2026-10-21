@@ -17,6 +17,9 @@ Exécuter les notebooks dans l'ordre, en lisant les explications avant les cellu
 5. [Exporter un tableau OSM pour AURA](notebooks/06_osm_aura_table.ipynb) : crée un CSV filtrable avec une ligne par objet, sa catégorie précise, sa grande famille et ses coordonnées.
 6. [Exporter la table finale de release](notebooks/07_release_final_table.ipynb) : croise les indicateurs régionaux et le référentiel Citiz par `station_uid`, contrôle la jointure et exporte le CSV accompagné de sa documentation et de son manifeste.
 7. [Lister les colonnes et modalités de la table finale](notebooks/08_citiz_aura_columns_modalities.ipynb) : inventaire des types, bornes numériques, modalités avec effectifs et pourcentages, valeurs manquantes et colonnes constantes. Exécuté sur 612 stations et 50 colonnes : 5 colonnes entièrement vides et 555 valeurs manquantes pour le total strict des places publiques. Une cellule permet de consulter toutes les modalités d'une colonne au choix, sans modifier les sources.
+8. [Nettoyer la table finale](notebooks/09_citiz_aura_clean.ipynb) : retire les colonnes vides à 90 % ou plus (6 colonnes), décrit les variables numériques et qualitatives, puis écrit `data/clean/citiz_aura_clean.csv` (612 stations, 44 colonnes) et `data/clean/dropped_columns.csv`. Réexécuté le 20/10/2026 : fichiers identiques octet par octet à ceux déjà versionnés.
+
+Il n'y a pas de notebook 04 : la numérotation saute de 03 à 05. Le notebook 07 cite son propre nom dans la documentation de la release, il n'a donc pas été renuméroté.
 
 ### Table finale pour la release
 
@@ -24,7 +27,7 @@ Le notebook 07 a été exécuté depuis un noyau neuf : **612 lignes, 50 colonne
 
 Le fichier final est [`data/release/citiz_aura_final.csv`](data/release/citiz_aura_final.csv). Il correspond à la table croisée du dashboard : une ligne par station AURA, avec indicateurs OSM, département, réseau, capacité et instantané Citiz extrait le **19 octobre 2026**. Les fichiers de qualité, le manifeste SHA-256, le dictionnaire, les sources et le guide sont livrés dans le même dossier. L'encodage est UTF-8 avec BOM, le séparateur est la virgule et les cellules inconnues restent vides.
 
-Le dossier `data/release/` est exclu de Git comme les autres données ; joindre ses fichiers à la release séparément. Ce notebook prépare les fichiers localement, sans publication externe.
+Contrairement aux autres modules, `regional-data/data/` est versionné (`!regional-data/data` dans le `.gitignore` racine) : `processed/`, `release/` et `clean/` sont dans Git. Ce notebook prépare les fichiers localement, sans publication externe.
 
 Un notebook est un document exécutable. Les cellules de code doivent être lancées dans l'ordre. Redémarrer le noyau puis tout exécuter permet de vérifier la reproductibilité.
 
@@ -70,7 +73,7 @@ Ouvrir l'aperçu HTML dans un navigateur : survoler ou cliquer sur un point affi
 
 La légende distingue les **stations rouges sans équipement OSM recensé dans les 500 m** (2 lors de l'exécution actuelle) des **stations bleues avec au moins un équipement recensé** (610). Le contour foncé marque la sélection et conserve la couleur de catégorie. Un zéro recensé n'établit pas une absence réelle d'équipements sur le terrain.
 
-Transmettre les fichiers utiles de `data/processed/` avec ce README, [le dictionnaire](DATA_DICTIONARY.md) et [les sources](SOURCES.md). Les fichiers de données sont exclus de Git pour ne pas alourdir le dépôt ; ils existent localement après exécution. Les notebooks et la documentation sont versionnables. Relancer les calculs remplace les sorties, sans modifier les sources ni les autres dossiers de l'équipe.
+Transmettre les fichiers utiles de `data/processed/` avec ce README, [le dictionnaire](DATA_DICTIONARY.md) et [les sources](SOURCES.md). Les CSV, GeoJSON, JSON et HTML de `data/` sont versionnés ; les GeoPackage (`*.gpkg`, dont `osm_objects.gpkg` et `walking_network.gpkg`) sont exclus de Git par le `.gitignore` racine et n'existent que localement après exécution. Les notebooks et la documentation sont versionnables. Relancer les calculs remplace les sorties, sans modifier les sources ni les autres dossiers de l'équipe.
 
 ## Ce que les indicateurs signifient
 

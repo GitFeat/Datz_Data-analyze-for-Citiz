@@ -4,7 +4,7 @@
 
 Établir quelles données Citiz sont **exploitables** pour le hackathon, et lesquelles ne le sont pas.
 
-Citiz publie ses stations au format **GBFS** sur le Point d'accès national (transport.data.gouv.fr), avec un flux par réseau régional. Ce module récupère ces flux, mesure leur qualité colonne par colonne, cartographie les stations et prépare des tables propres pour le Lakehouse Microsoft Fabric.
+Citiz publie ses stations au format **GBFS** sur le Point d'accès national (transport.data.gouv.fr), avec un flux par réseau régional. Ce module récupère ces flux, mesure leur qualité colonne par colonne, cartographie les stations et les rattache à leur département. Les tables du Lakehouse Microsoft Fabric sont construites dans [`lakehouse/`](../lakehouse/README.md).
 
 Statut : **exploration**. Les conclusions ci-dessous portent sur les données réellement téléchargées, pas sur des données prévues.
 
@@ -19,10 +19,13 @@ python3 -m venv .venv
 
 Exécuter les notebooks dans l'ordre. Après une modification, **redémarrer le noyau puis tout exécuter** pour vérifier qu'aucune variable d'une ancienne exécution n'est nécessaire.
 
-1. [Extraire les stations Citiz](notebooks/01_citiz_gbfs_extraction.ipynb) : interroge l'API du Point d'accès national, lit les 15 flux GBFS, nettoie, dédoublonne et écrit 4 CSV bruts. Chaque exécution **ajoute** un instantané à l'historique des disponibilités.
-2. [Mesurer la qualité des données](notebooks/02_citiz_data_quality.ipynb) : taux de remplissage, couverture géographique, pseudo-stations, fraîcheur des statuts, flotte, verdict par colonne.
-3. [Cartographier les stations](notebooks/03_citiz_stations_map.ipynb) : carte statique, carte interactive, rattachement de chaque station à son département et sa région.
-4. [Préparer le Lakehouse](notebooks/04_lakehouse_preparation.ipynb) : 8 tables typées et contrôlées. **Préparatoire** : exécuté en local, pas encore dans Fabric.
+| Notebook | Rôle | Contenu |
+|---|---|---|
+| [01 Extraire les stations](notebooks/01_citiz_gbfs_extraction.ipynb) | **pipeline** | Interroge l'API du Point d'accès national, lit les 15 flux GBFS, nettoie, dédoublonne et écrit 4 CSV bruts. Chaque exécution **ajoute** un instantané à l'historique des disponibilités. |
+| [02 Mesurer la qualité](notebooks/02_citiz_data_quality.ipynb) | analyse | Aperçu des fichiers bruts, taux de remplissage, couverture, pseudo-stations, fraîcheur des statuts, flotte, verdict par colonne et liste de ce qui entre dans le pipeline. |
+| [03 Cartographier les stations](notebooks/03_citiz_stations_map.ipynb) | **pipeline**, présentation | Rattachement au département et à la région (`citiz_stations_geo.csv`, lu par le Lakehouse et publiable dans `output/`), cartes statique et interactive. |
+
+Côté Citiz, le pipeline est **01 → 03**, puis [`lakehouse/`](../lakehouse/README.md). Le rattachement spatial n'est fait qu'une fois, dans 03 : le Lakehouse relit son résultat. Le notebook 02 justifie les colonnes retenues par le Lakehouse et ne produit aucune table.
 
 Le notebook 01 nécessite Internet. Les suivants n'utilisent que les fichiers locaux, sauf au premier téléchargement des contours.
 
@@ -41,7 +44,6 @@ Chemins relatifs à `citiz/`. Le dossier `data/` est exclu de Git : il est recr�
 | `data/processed/citiz_stations_map.png` / `.html` | 03 | Carte statique (slides) / interactive (démo) |
 | `data/processed/citiz_stations_by_department.png` | 03 | Nombre de stations par département |
 | `data/processed/citiz_stations_geo.csv` | 03 | Stations avec département et région |
-| `data/lakehouse/Files/...` | 04 | Miroir local du Lakehouse : CSV bruts, Parquet propres, dictionnaire |
 
 ### Référence partagée avec l'équipe
 
@@ -49,7 +51,7 @@ Chemins relatifs à `citiz/`. Le dossier `data/` est exclu de Git : il est recr�
 
 ## Résultats de l'exploration
 
-Exécution du 20/10/2026, 3 instantanés de disponibilité (19/10 et 20/10).
+Exécution du 20/10/2026, 4 instantanés de disponibilité (19/10 et 20/10).
 
 ### Couverture
 
@@ -75,7 +77,7 @@ Exécution du 20/10/2026, 3 instantanés de disponibilité (19/10 et 20/10).
 | Donnée | Constat | Conséquence |
 |---|---|---|
 | `last_reported` | **95 %** des statuts ont plus de 30 jours, **57 %** plus d'un an | Le flux ne reflète pas les mouvements réels des voitures : **pas de mesure de fréquentation fiable à partir de GBFS seul** |
-| Historique de disponibilité | 3 instantanés seulement | À accumuler (planification), puis à valider au vu du point précédent |
+| Historique de disponibilité | 4 instantanés seulement | À accumuler (planification), puis à valider au vu du point précédent |
 | `address` | Absente pour 33 % des stations | À compléter par géocodage inverse si nécessaire |
 | `num_docks_available`, `is_renting` | Constantes (0, vrai) | Aucune information |
 | `max_range_meters` | 0 pour 96 % des modèles | Autonomie inconnue |
@@ -88,21 +90,13 @@ Exécution du 20/10/2026, 3 instantanés de disponibilité (19/10 et 20/10).
 - La fréquentation devra être estimée autrement : demander des données d'usage à Citiz, ou construire un indicateur de potentiel (population, densité, desserte) plutôt qu'un usage observé.
 - Les codes de département (`01`, `2A`) doivent être lus en texte : sans `dtype=str`, pandas les convertit en nombres.
 
-## Lakehouse Fabric (préparatoire)
+## Lakehouse Fabric
 
-Le notebook 04 produit 8 tables, décrites dans [le dictionnaire](DATA_DICTIONARY.md) : `geo_region`, `geo_department`, `citiz_network`, `citiz_station`, `citiz_vehicle_type`, `citiz_station_status`, `citiz_station_status_vehicle`, `cost_parameter`. Chaque table a une clé primaire vérifiée, et les liens entre tables sont contrôlés (aucun orphelin).
-
-Pour charger dans Fabric :
-
-1. Créer un Lakehouse dans l'espace de travail de l'équipe.
-2. Déposer le contenu de `data/lakehouse/Files/` dans `Files/` du Lakehouse.
-3. Importer le notebook 04, lui attacher le Lakehouse comme Lakehouse par défaut, puis l'exécuter : les tables apparaissent dans `Tables/`.
-
-La partie Spark n'a pas encore été testée dans Fabric.
+Les tables Citiz (stations, réseaux, flotte, historique de disponibilité, coûts) sont construites par [`lakehouse/`](../lakehouse/README.md), avec les indicateurs de `regional-data/` et la population. Les choix de colonnes appliqués viennent du notebook 02 (section 6).
 
 ## Coûts d'une station (pistes)
 
-Aucune grille tarifaire publique n'a été trouvée. Chiffres tirés de la convention type Genevois français / Citiz Alpes-Loire (2021), repris dans la table `cost_parameter` :
+Aucune grille tarifaire publique n'a été trouvée. Chiffres tirés de la convention type Genevois français / Citiz Alpes-Loire (2021), repris dans la table `cost_parameter` du Lakehouse :
 
 | Paramètre | Valeur | Statut |
 |---|---|---|

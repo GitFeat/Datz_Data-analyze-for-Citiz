@@ -1,6 +1,8 @@
 # Analyse descriptive Citiz AURA après nettoyage
 
-Reproduction : exécuter `regional-data/notebooks/clean.ipynb` depuis un noyau neuf Python (IGN / OSM), fourni par `ign-osm/.venv`.
+Reproduction : exécuter `regional-data/notebooks/09_citiz_aura_clean.ipynb` depuis un noyau neuf. Il écrit **seulement** `citiz_aura_clean.csv` et `dropped_columns.csv` (vérifiés identiques octet par octet le 20/10/2026).
+
+**Les autres fichiers de ce dossier ne sont produits par aucun notebook ni script du dépôt** : statistiques, corrélations, valeurs atypiques, paires proches, noms répétés, cartes et `analysis_manifest.json`. Ils ne sont pas reproductibles en l'état ; ajouter le code qui les produit avant de s'en servir dans une présentation.
 
 Résultat vérifié : 612 stations, 44 colonnes après retrait des 6 colonnes ayant au moins 90 % de valeurs manquantes. Aucune suppression automatique de station ni remplacement des inconnues par zéro. Le CSV de release reste intact.
 
